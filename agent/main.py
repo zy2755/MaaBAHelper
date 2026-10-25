@@ -1,10 +1,15 @@
+import os
 import sys
 
 from maa.agent.agent_server import AgentServer
 from maa.toolkit import Toolkit
 
+os.environ["MAA_AGENT_MODE"] = "1"
+
 import my_action
 import my_reco
+import schedule_helper
+import bounty_helper
 
 
 def main():

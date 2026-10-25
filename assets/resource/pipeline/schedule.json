@@ -1,0 +1,346 @@
+{
+    "日程_打开全部日程": {
+        "recognition": "OCR",
+        "expected": "全部日程",
+        "roi": [
+            1050,
+            630,
+            230,
+            80
+        ],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [],
+        "timeout": 25000
+    },
+    "日程_卡_六和阁": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "六和阁"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_卡_白虎公园": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "白虎公园"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_卡_茶园": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "茶园"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_卡_玄武商会": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "玄武商会"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_卡_竹林": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "竹林"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_卡_桃源香": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "桃源香"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_卡_梅花园本馆": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "梅花园本馆"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_卡_炼丹研究会": {
+        "recognition": "Custom",
+        "custom_recognition": "schedule_card_executable",
+        "custom_recognition_param": {
+            "name": "炼丹研究会"
+        },
+        "action": "Click",
+        "target": true,
+        "post_delay": 2500,
+        "next": [
+            "日程_面板_开始日程"
+        ],
+        "timeout": 3000
+    },
+    "日程_面板_开始日程": {
+        "recognition": "ColorMatch",
+        "roi": [
+            520,
+            525,
+            240,
+            60
+        ],
+        "lower": [
+            90,
+            190,
+            230
+        ],
+        "upper": [
+            160,
+            240,
+            255
+        ],
+        "connected": true,
+        "action": "Click",
+        "post_delay": 5000,
+        "next": [
+            "日程_补券_检测",
+            "日程_报告确认",
+            "日程_链完成"
+        ]
+    },
+    "日程_报告确认": {
+        "recognition": "TemplateMatch",
+        "template": "schedule/btn_report_confirm.png",
+        "roi": [
+            420,
+            480,
+            440,
+            180
+        ],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "日程_报告确认",
+            "日程_链完成"
+        ]
+    },
+    "日程_收尾_关信息面板": {
+        "recognition": "TemplateMatch",
+        "template": "schedule/btn_info_close.png",
+        "roi": [
+            900,
+            60,
+            130,
+            120
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": []
+    },
+    "日程_收尾_关列表面板": {
+        "recognition": "TemplateMatch",
+        "template": "schedule/btn_list_close.png",
+        "roi": [
+            1080,
+            50,
+            130,
+            120
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": []
+    },
+    "日程_收尾_home": {
+        "recognition": "DirectHit",
+        "target": [
+            1225,
+            8,
+            50,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 3000,
+        "next": [
+            "每日_主流程"
+        ]
+    },
+    "日程_清券总控": {
+        "action": "Custom",
+        "custom_action": "schedule_clear_all_areas",
+        "next": [
+            "日程_收尾_home"
+        ]
+    },
+    "日程_切下一区域": {
+        "recognition": "DirectHit",
+        "target": [
+            1232,
+            345,
+            28,
+            35
+        ],
+        "action": "Click",
+        "post_delay": 1500
+    },
+    "日程_链完成": {
+        "next": []
+    },
+    "日程_判定_地图视图": {
+        "recognition": "OCR",
+        "expected": "全部日程",
+        "roi": [
+            1000,
+            600,
+            280,
+            120
+        ],
+        "action": "DoNothing"
+    },
+    "日程_列表_进入首区域": {
+        "recognition": "OCR",
+        "expected": "沙勒业务区",
+        "roi": [
+            640,
+            130,
+            640,
+            100
+        ],
+        "action": "Click",
+        "post_delay": 2500,
+        "timeout": 25000
+    },
+    "日程_切上一区域": {
+        "recognition": "DirectHit",
+        "target": [
+            22,
+            345,
+            28,
+            35
+        ],
+        "action": "Click",
+        "post_delay": 1200
+    },
+    "日程_视图分发": {
+        "next": [
+            "日程_地图视图_标记",
+            "日程_列表视图_进首区域"
+        ]
+    },
+    "日程_地图视图_标记": {
+        "recognition": "OCR",
+        "expected": "全部日程",
+        "roi": [
+            1000,
+            600,
+            280,
+            120
+        ],
+        "action": "DoNothing",
+        "next": [
+            "日程_清券总控"
+        ],
+        "timeout": 3000
+    },
+    "日程_列表视图_进首区域": {
+        "recognition": "OCR",
+        "expected": "沙勒业务区",
+        "roi": [
+            640,
+            130,
+            640,
+            100
+        ],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "日程_清券总控"
+        ],
+        "timeout": 15000
+    },
+    "日程_补券_检测": {
+        "recognition": "OCR",
+        "expected": "购买日程券",
+        "roi": [
+            350,
+            150,
+            580,
+            90
+        ],
+        "action": "DoNothing",
+        "next": [
+            "日程_补券_点取消",
+            "日程_链完成"
+        ]
+    },
+    "日程_补券_点取消": {
+        "recognition": "OCR",
+        "expected": "取消",
+        "roi": [
+            380,
+            455,
+            320,
+            110
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "日程_补券_点取消",
+            "日程_链完成"
+        ]
+    },
+    "日程_唤醒屏幕": {
+        "recognition": "DirectHit",
+        "target": [
+            600,
+            80,
+            80,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 1000
+    }
+}

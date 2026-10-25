@@ -452,3 +452,5 @@ tools/ImageCropper/**/*.png
 
 config
 debug
+# 本项目产物
+dist/

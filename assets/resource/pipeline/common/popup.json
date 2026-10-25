@@ -1,0 +1,61 @@
+{
+    // ============================================================
+    // 通用弹窗处理
+    // BA 流程中会随机弹出奖励结算、升级提示、公告等弹窗，
+    // 各任务链在关键步骤后引用这些节点兜底。
+    // roi 以 1280x720 为基准，坐标为 [x, y, w, h]，接入后请按实测调整。
+    // ============================================================
+    "通用_确认": {
+        "recognition": "OCR",
+        "expected": ["确认", "确 认", "好的"],
+        // 弹窗按钮通常出现在屏幕下方中央区域
+        "roi": [400, 520, 480, 180],
+        "action": "Click",
+        "post_delay": 800,
+        // 兜底跳回调度环：链中间处理完弹窗后由 "每日_主流程" 重新调度
+        "next": [
+            "通用_确认",
+            "通用_关闭",
+            "每日_主流程"
+        ]
+    },
+    "通用_关闭": {
+        "recognition": "OCR",
+        "expected": ["关闭", "取消"],
+        "roi": [400, 520, 480, 180],
+        "action": "Click",
+        "post_delay": 800,
+        "next": [
+            "通用_关闭",
+            "每日_主流程"
+        ]
+    },
+    // 开机角色动画的"跳过"按钮（右上角）。已挂到 每日_主流程 的 JumpBack 兜底：
+    // 动画期间主流程其他节点均不命中，仅本节点命中并点击跳过
+    "通用_跳过动画": {
+        "recognition": "OCR",
+        "expected": ["跳过", "SKIP"],
+        "roi": [980, 0, 300, 120],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "通用_跳过动画",
+            "每日_主流程"
+        ]
+    },
+    // 左上/右上的返回箭头按钮没有文字，需要截图：
+    // 1. 用 VSCode 插件 Maa Pipeline Support 或 ImageCropper 从 720p 截图中裁剪
+    // 2. 保存为 assets/resource/image/common/return_arrow.png
+    // 3. 将下方 template 的 placeholder.png 替换为 common/return_arrow.png，并删除 "enabled": false
+    "通用_返回上一页": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "target": [55, 33, 30, 30],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "通用_返回上一页"
+        ]
+    }
+}

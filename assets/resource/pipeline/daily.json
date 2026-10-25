@@ -1,0 +1,492 @@
+{
+    // ============================================================
+    // 每日任务环（调度节点）
+    //
+    // 工作原理：MaaFramework 会并行匹配 next 列表中的所有节点，
+    // 执行命中的那条链；每条链走完后回到 "每日_主流程"，如此循环，
+    // 直到 next 中所有节点都不再可匹配（即所有日常都已完成）。
+    //
+    // 新增日常时：写好子链，把入口节点加进 next 列表即可。
+    // 占位节点（enabled: false）不会被匹配，等效于"该任务未启用"。
+    // ============================================================
+    "每日_主流程": {
+        "next": [
+            // JumpBack 兜底：每轮调度优先检查随机弹窗和开机动画，命中则处理并跳回本节点重新识别
+            "[JumpBack]通用_确认",
+            "[JumpBack]通用_关闭",
+            "[JumpBack]通用_跳过动画",
+            "邮件_领取",
+            "主界面_进入咖啡厅",
+            "主界面_进入商店",
+            "日程_主流程",
+            "业务区_进入"
+        ]
+    },
+
+    // ---------------- 任务入口（供 interface.json 单独引用） ----------------
+    "咖啡厅_主流程": {
+        "next": [
+            "[JumpBack]通用_确认",
+            "[JumpBack]通用_关闭",
+            "[JumpBack]通用_跳过动画",
+            "主界面_进入咖啡厅"
+        ]
+    },
+    "商店_主流程": {
+        "next": [
+            "[JumpBack]通用_确认",
+            "[JumpBack]通用_关闭",
+            "[JumpBack]通用_跳过动画",
+            "主界面_进入商店"
+        ]
+    },
+
+    // ---------------- 邮件 ----------------
+    "邮件_领取": {
+        // 主界面右上角邮箱信封的红点角标（RGB 254,77,34 → BGR 下界/上界）：
+        // 有红点=有未读邮件才打开邮箱，领完红点消失自然不再命中
+        "recognition": "ColorMatch",
+        "roi": [1172, 8, 20, 20],
+        "lower": [200, 40, 0],
+        "upper": [255, 140, 100],
+        "connected": true,
+        "action": "Click",
+        "target": [1108, 22, 58, 44],
+        "post_delay": 2000,
+        "next": [
+            "邮件_一键领取"
+        ]
+    },
+    "邮件_一键领取": {
+        // 邮箱列表页的"一键领取"按钮
+        "recognition": "OCR",
+        "expected": "一键领取",
+        "roi": [850, 540, 430, 180],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "通用_确认",
+            "邮件_跳过自选",
+            "邮件_返回主界面"
+        ]
+    },
+    "邮件_跳过自选": {
+        // 一键领取遇到自选类奖励时弹出选择界面，点击屏幕上方空白处跳过选择。
+        // TODO: 首次遇到时根据 debug/on_error 现场截图确认识别特征后启用
+        "recognition": "OCR",
+        "expected": "选择",
+        "roi": [340, 60, 600, 120],
+        "enabled": false,
+        "action": "Click",
+        "target": [640, 90, 4, 4],
+        "post_delay": 1500,
+        "next": [
+            "通用_确认",
+            "邮件_一键领取",
+            "邮件_返回主界面"
+        ]
+    },
+    "邮件_返回主界面": {
+        "recognition": "TemplateMatch",
+        "template": "common/return_arrow.png",
+        "target": [55, 33, 30, 30],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "每日_主流程"
+        ]
+    },
+
+    // ---------------- 咖啡厅 ----------------
+    "咖啡厅_领取信用点": {
+        // 咖啡厅"咖啡厅收益"卡片右上角的红点角标：有红点=有收益可领，
+        // 点击卡片（target 指向卡片），领完红点消失，next 落到返回节点
+        "recognition": "ColorMatch",
+        "roi": [1238, 614, 26, 26],
+        "lower": [200, 40, 0],
+        "upper": [255, 140, 100],
+        "connected": true,
+        "action": "Click",
+        "target": [1098, 625, 155, 68],
+        "post_delay": 2000,
+        "next": [
+            "咖啡厅_点击领取",
+            "咖啡厅_返回主界面"
+        ]
+    },
+    "咖啡厅_点击领取": {
+        // 收益面板（咖啡厅收益情况）底部的"领取"按钮
+        "recognition": "OCR",
+        "expected": "领取",
+        "roi": [500, 470, 280, 120],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_确认",
+            "咖啡厅_关闭收益面板",
+            "咖啡厅_返回主界面"
+        ]
+    },
+    "咖啡厅_关闭收益面板": {
+        // 领取后面板不会自动关闭，点右上角 × 后再返回主界面
+        "recognition": "TemplateMatch",
+        "template": "cafe/btn_close_panel.png",
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "咖啡厅_关闭收益面板",
+            "咖啡厅_返回主界面"
+        ]
+    },
+    "咖啡厅_返回主界面": {
+        "recognition": "TemplateMatch",
+        "template": "common/return_arrow.png",
+        "target": [55, 33, 30, 30],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "每日_主流程"
+        ]
+    },
+
+    // ---------------- 商店 ----------------
+    // 商店流程：进入"常规道具"页 → 打开筛选 → 按用户勾选的品类过滤 → 确认
+    // 勾选节点默认 disabled，由 interface.json 的 checkbox 选项"商店购买品类"按需启用；
+    // 线性链 + disabled 自动跳过：勾了哪几个就依次点哪几个，不会重复勾选
+    "商店_每日购买": {
+        "next": [
+            "商店_进入常规道具"
+        ]
+    },
+    "商店_进入常规道具": {
+        "recognition": "OCR",
+        "expected": "常规道具",
+        "roi": [0, 80, 400, 640],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "商店_打开筛选"
+        ]
+    },
+    "商店_打开筛选": {
+        "recognition": "OCR",
+        "expected": "筛选",
+        "roi": [860, 50, 300, 80],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "商店_筛选_活动报告书",
+            "商店_筛选_装备",
+            "商店_筛选_神秘古物",
+            "商店_筛选_组合商品",
+            "商店_筛选确认"
+        ]
+    },
+    "商店_筛选_活动报告书": {
+        // 识别文字定位（确认面板已打开且该项可见），点击固定坐标的复选框本体
+        "recognition": "OCR",
+        "expected": "活动报告书",
+        "roi": [80, 240, 1120, 120],
+        "enabled": false,
+        "action": "Click",
+        "target": [272, 266, 38, 38],
+        "post_delay": 800,
+        "next": [
+            "商店_筛选_装备",
+            "商店_筛选_神秘古物",
+            "商店_筛选_组合商品",
+            "商店_筛选确认"
+        ]
+    },
+    "商店_筛选_装备": {
+        // 识别文字定位（确认面板已打开且该项可见），点击固定坐标的复选框本体
+        "recognition": "OCR",
+        "expected": "装备",
+        "roi": [80, 240, 1120, 120],
+        "enabled": false,
+        "action": "Click",
+        "target": [511, 266, 38, 38],
+        "post_delay": 800,
+        "next": [
+            "商店_筛选_神秘古物",
+            "商店_筛选_组合商品",
+            "商店_筛选确认"
+        ]
+    },
+    "商店_筛选_神秘古物": {
+        // 识别文字定位（确认面板已打开且该项可见），点击固定坐标的复选框本体
+        "recognition": "OCR",
+        "expected": "神秘古物",
+        "roi": [80, 240, 1120, 120],
+        "enabled": false,
+        "action": "Click",
+        "target": [746, 266, 38, 38],
+        "post_delay": 800,
+        "next": [
+            "商店_筛选_组合商品",
+            "商店_筛选确认"
+        ]
+    },
+    "商店_筛选_组合商品": {
+        // 识别文字定位（确认面板已打开且该项可见），点击固定坐标的复选框本体
+        "recognition": "OCR",
+        "expected": "组合商品",
+        "roi": [80, 240, 1120, 120],
+        "enabled": false,
+        "action": "Click",
+        "target": [983, 266, 38, 38],
+        "post_delay": 800,
+        "next": [
+            "商店_筛选确认"
+        ]
+    },
+    "商店_筛选确认": {
+        // 筛选面板底部"确认"按钮：字距大导致 OCR 拆字识别不稳定，用模板匹配
+        "recognition": "TemplateMatch",
+        "template": "store/btn_confirm.png",
+        "roi": [500, 520, 460, 160],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "商店_点击全选"
+        ]
+    },
+    "商店_点击全选": {
+        // 筛选后点右上角"全选"选中列表全部商品；默认禁用，勾选"商店购买品类"后才启用
+        "recognition": "OCR",
+        "expected": "全选",
+        "roi": [1080, 50, 200, 80],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "商店_点击购买"
+        ]
+    },
+    "商店_点击购买": {
+        // 全选后右下角出现"购买"按钮；roi 圈底部按钮区，避开商品卡片上的购买小按钮
+        "recognition": "OCR",
+        "expected": "购买",
+        "roi": [1020, 620, 260, 100],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "通用_确认",
+            "商店_返回主界面"
+        ]
+    },
+    "商店_购买循环": {
+        // TODO: 购买逻辑占位——筛选后列表的逐件购买（数量/青金石余额判断/终止条件）
+        // 待接入，当前筛选完成后直接返回主界面
+        "enabled": false,
+        "next": [
+            "商店_返回主界面"
+        ]
+    },
+    "商店_返回主界面": {
+        "recognition": "TemplateMatch",
+        "template": "common/return_arrow.png",
+        "target": [55, 33, 30, 30],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "每日_主流程"
+        ]
+    },
+
+    // ---------------- 日程（清券） ----------------
+    // 玩法：进入选择日程页 → 全部日程面板 → 满编3人优先执行，其次2人/1人，用完券
+    // 面板遍历与券尽收尾逻辑在 schedule.json
+    "日程_主流程": {
+        // 双起点：主界面（底栏"日程"按钮点击进入）或已在日程页（顶栏标题判定直接续接）
+        "next": [
+            "日程_入口_主界面",
+            "日程_入口_日程页"
+        ]
+    },
+    "日程_入口_主界面": {
+        "recognition": "OCR",
+        "expected": "日程",
+        "roi": [0, 640, 1280, 80],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "日程_视图分发"
+        ]
+    },
+    "日程_入口_日程页": {
+        "recognition": "OCR",
+        "expected": "日程",
+        "roi": [60, 0, 400, 60],
+        "action": "DoNothing",
+        "next": [
+            "日程_视图分发"
+        ]
+    },
+
+    // ---------------- 业务区（资源关共同入口） ----------------
+    // 国服主界面底部没有"战斗"按钮，资源关入口都在主界面右侧的"业务区"里。
+    // 业务区实际入口（2026-10 截图确认）：任务、故事、悬赏通缉、总力战、
+    // 综合战术测试、大决战、特别委托、学院交流会、战术对抗赛、无限限制战。
+    // 当前接入：特别委托 / 悬赏通缉 / 战术对抗赛（每日）；
+    // 总力战 / 大决战（周常 raid）与学院交流会可按同样的"入口→选择关卡→扫荡"模式扩展。
+    // 结构：主流程 → 业务区_进入 → 业务区_调度（小环依次尝试各入口）→ 业务区_返回 → 主流程
+    //
+    // 防重复进入的推荐做法：入口图标截图时带上每日剩余次数角标（如 1/1），
+    // 当日完成后角标变为 0/1，模板自然不再命中；若实际 UI 无状态差异，
+    // 接入时需观察"已完成"的表现（弹提示/置灰），必要时改用 agent 计数。
+    "业务区_进入": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "业务区_调度"
+        ]
+    },
+    "业务区_调度": {
+        // 业务区内的小环：依次尝试各入口，全部不可用时通过 业务区_返回 回主流程
+        "next": [
+            "[JumpBack]通用_确认",
+            "[JumpBack]通用_关闭",
+            "特别委托_入口",
+            "悬赏通缉_入口",
+            "战术对抗赛_入口",
+            "业务区_返回"
+        ]
+    },
+    "业务区_返回": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "每日_主流程"
+        ]
+    },
+
+    // ----- 特别委托（钱本，每日 1 次） -----
+    "特别委托_入口": {
+        // 业务区内的特别委托图标，截图时建议带上次数角标（见业务区说明）
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "特别委托_选择关卡",
+            "业务区_调度"
+        ]
+    },
+    "特别委托_选择关卡": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "特别委托_执行扫荡",
+            "业务区_调度"
+        ]
+    },
+    "特别委托_执行扫荡": {
+        "recognition": "OCR",
+        "expected": "扫荡",
+        "roi": [900, 550, 380, 170],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_确认",
+            "业务区_调度"
+        ]
+    },
+
+    // ----- 悬赏通缉 -----
+    "悬赏通缉_入口": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "悬赏通缉_选择关卡",
+            "业务区_调度"
+        ]
+    },
+    "悬赏通缉_选择关卡": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "悬赏通缉_执行扫荡",
+            "业务区_调度"
+        ]
+    },
+    "悬赏通缉_执行扫荡": {
+        "recognition": "OCR",
+        "expected": "扫荡",
+        "roi": [900, 550, 380, 170],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_确认",
+            "业务区_调度"
+        ]
+    },
+
+    // ----- 战术对抗赛（PvP，每日 5 场） -----
+    // PvP 包含自动战斗，逻辑复杂（选对手/编队/战斗结算/失败重试），
+    // 骨架阶段先做到"进入页面 + 领取时段奖励"，战斗部分接入 agent 自定义动作后补全
+    "战术对抗赛_入口": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "战术对抗赛_领取奖励"
+        ]
+    },
+    "战术对抗赛_领取奖励": {
+        // 战术对抗赛页面的时段奖励领取
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "通用_确认",
+            "业务区_调度"
+        ]
+    },
+
+    // ---------------- 活动关（占位框架） ----------------
+    // 每期活动 UI 不同，建议按期新建 pipeline/event_xxx.json，
+    // 入口节点通过 interface.json 的 pipeline_override 或独立任务接入
+    "活动_主流程": {
+        "recognition": "TemplateMatch",
+        "template": "placeholder.png",
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "活动_扫荡"
+        ]
+    },
+    "活动_扫荡": {
+        "recognition": "OCR",
+        "expected": "扫荡",
+        "roi": [900, 550, 380, 170],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_确认"
+        ]
+    }
+}

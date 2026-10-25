@@ -1,0 +1,1152 @@
+{
+    "悬赏_主流程": {
+        "next": [
+            "悬赏_总控"
+        ]
+    },
+    "学院_主流程": {
+        "next": [
+            "学院_总控"
+        ]
+    },
+    "悬赏_进业务区": {
+        "recognition": "OCR",
+        "expected": "业务区",
+        "roi": [
+            1000,
+            500,
+            280,
+            140
+        ],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "悬赏_剧情警告_取消",
+            "悬赏_点入口"
+        ]
+    },
+    "悬赏_剧情警告_取消": {
+        "recognition": "OCR",
+        "expected": "先进行主线故事",
+        "roi": [
+            380,
+            200,
+            520,
+            300
+        ],
+        "action": "DoNothing",
+        "next": [
+            "悬赏_警告点取消",
+            "悬赏_点入口"
+        ],
+        "timeout": 2000
+    },
+    "悬赏_警告点取消": {
+        "recognition": "OCR",
+        "expected": "取消",
+        "roi": [
+            380,
+            590,
+            340,
+            120
+        ],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "悬赏_警告点取消",
+            "悬赏_点入口"
+        ],
+        "timeout": 2000
+    },
+    "悬赏_点入口": {
+        "recognition": "OCR",
+        "expected": "悬赏通缉",
+        "roi": [
+            640,
+            350,
+            640,
+            120
+        ],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [],
+        "timeout": 5000
+    },
+    "悬赏_收尾_返回": {
+        "recognition": "DirectHit",
+        "target": [
+            1225,
+            8,
+            50,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 3000
+    },
+    "悬赏_模式_高架公路": {
+        "recognition": "OCR",
+        "expected": "高架公路",
+        "roi": [
+            640,
+            130,
+            640,
+            370
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_列表页判定"
+        ],
+        "target": [
+            880,
+            180,
+            120,
+            50
+        ],
+        "timeout": 5000
+    },
+    "悬赏_模式_沙漠铁路": {
+        "recognition": "OCR",
+        "expected": "沙漠铁路",
+        "roi": [
+            640,
+            130,
+            640,
+            370
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_列表页判定"
+        ],
+        "target": [
+            880,
+            300,
+            120,
+            50
+        ],
+        "timeout": 5000
+    },
+    "悬赏_模式_讲堂": {
+        "recognition": "OCR",
+        "expected": "讲堂",
+        "roi": [
+            640,
+            130,
+            640,
+            370
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_列表页判定"
+        ],
+        "target": [
+            880,
+            415,
+            120,
+            50
+        ],
+        "timeout": 5000
+    },
+    "悬赏_列表滑到顶": {
+        "action": "Swipe",
+        "begin": [
+            920,
+            150,
+            60,
+            20
+        ],
+        "end": [
+            920,
+            550,
+            60,
+            20
+        ],
+        "duration": 400,
+        "post_delay": 1500
+    },
+    "悬赏_列表下滑": {
+        "action": "Swipe",
+        "begin": [
+            920,
+            550,
+            60,
+            20
+        ],
+        "end": [
+            920,
+            250,
+            60,
+            20
+        ],
+        "duration": 400,
+        "post_delay": 1500
+    },
+    "悬赏_点入场": {
+        "recognition": "OCR",
+        "expected": "入场",
+        "roi": [
+            1000,
+            80,
+            280,
+            620
+        ],
+        "action": "Click",
+        "post_delay": 2500
+    },
+    "悬赏_编队返回": {
+        "recognition": "DirectHit",
+        "target": [
+            55,
+            37,
+            40,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 2000
+    },
+    "悬赏_找关卡_第1关": {
+        "recognition": "OCR",
+        "expected": "01",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第1关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 1
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第2关": {
+        "recognition": "OCR",
+        "expected": "02",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第2关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 2
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第3关": {
+        "recognition": "OCR",
+        "expected": "03",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第3关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 3
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第4关": {
+        "recognition": "OCR",
+        "expected": "04",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第4关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 4
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第5关": {
+        "recognition": "OCR",
+        "expected": "05",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第5关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 5
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第6关": {
+        "recognition": "OCR",
+        "expected": "06",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第6关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 6
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第7关": {
+        "recognition": "OCR",
+        "expected": "07",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第7关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 7
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第8关": {
+        "recognition": "OCR",
+        "expected": "08",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第8关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 8
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第9关": {
+        "recognition": "OCR",
+        "expected": "09",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第9关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 9
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_找关卡_第10关": {
+        "recognition": "OCR",
+        "expected": "10",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_关卡_第10关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level": 10
+        },
+        "enabled": true,
+        "next": [
+            "悬赏_快战_最大值",
+            "悬赏_快战_点击"
+        ]
+    },
+    "学院_进业务区": {
+        "recognition": "OCR",
+        "expected": "业务区",
+        "roi": [
+            1000,
+            500,
+            280,
+            140
+        ],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "学院_剧情警告_取消",
+            "学院_点入口"
+        ]
+    },
+    "学院_剧情警告_取消": {
+        "recognition": "OCR",
+        "expected": "先进行主线故事",
+        "roi": [
+            380,
+            200,
+            520,
+            300
+        ],
+        "action": "DoNothing",
+        "next": [
+            "学院_警告点取消",
+            "学院_点入口"
+        ],
+        "timeout": 2000
+    },
+    "学院_警告点取消": {
+        "recognition": "OCR",
+        "expected": "取消",
+        "roi": [
+            380,
+            590,
+            340,
+            120
+        ],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "学院_警告点取消",
+            "学院_点入口"
+        ],
+        "timeout": 2000
+    },
+    "学院_点入口": {
+        "recognition": "OCR",
+        "expected": "学院交流会",
+        "roi": [
+            620,
+            530,
+            660,
+            120
+        ],
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [],
+        "timeout": 5000
+    },
+    "学院_收尾_返回": {
+        "recognition": "DirectHit",
+        "target": [
+            1225,
+            8,
+            50,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 3000
+    },
+    "学院_模式_崔尼蒂": {
+        "recognition": "OCR",
+        "expected": "崔尼蒂",
+        "roi": [
+            640,
+            130,
+            640,
+            370
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_列表页判定"
+        ],
+        "target": [
+            880,
+            180,
+            120,
+            50
+        ],
+        "timeout": 5000
+    },
+    "学院_模式_歌赫娜": {
+        "recognition": "OCR",
+        "expected": "歌赫娜",
+        "roi": [
+            640,
+            130,
+            640,
+            370
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_列表页判定"
+        ],
+        "target": [
+            880,
+            290,
+            120,
+            50
+        ],
+        "timeout": 5000
+    },
+    "学院_模式_千禧年": {
+        "recognition": "OCR",
+        "expected": "千禧年",
+        "roi": [
+            640,
+            130,
+            640,
+            370
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 2500,
+        "next": [
+            "通用_列表页判定"
+        ],
+        "target": [
+            880,
+            400,
+            120,
+            50
+        ],
+        "timeout": 5000
+    },
+    "学院_列表滑到顶": {
+        "action": "Swipe",
+        "begin": [
+            920,
+            150,
+            60,
+            20
+        ],
+        "end": [
+            920,
+            550,
+            60,
+            20
+        ],
+        "duration": 400,
+        "post_delay": 1500
+    },
+    "学院_列表下滑": {
+        "action": "Swipe",
+        "begin": [
+            920,
+            550,
+            60,
+            20
+        ],
+        "end": [
+            920,
+            250,
+            60,
+            20
+        ],
+        "duration": 400,
+        "post_delay": 1500
+    },
+    "学院_点入场": {
+        "recognition": "OCR",
+        "expected": "入场",
+        "roi": [
+            1000,
+            80,
+            280,
+            620
+        ],
+        "action": "Click",
+        "post_delay": 2500
+    },
+    "学院_编队返回": {
+        "recognition": "DirectHit",
+        "target": [
+            55,
+            37,
+            40,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 2000
+    },
+    "学院_找关卡_第1关": {
+        "recognition": "OCR",
+        "expected": "01",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_关卡_第1关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "academy",
+            "level": 1
+        },
+        "enabled": true,
+        "next": [
+            "学院_快战_最大值",
+            "学院_快战_点击"
+        ]
+    },
+    "学院_找关卡_第2关": {
+        "recognition": "OCR",
+        "expected": "02",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_关卡_第2关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "academy",
+            "level": 2
+        },
+        "enabled": true,
+        "next": [
+            "学院_快战_最大值",
+            "学院_快战_点击"
+        ]
+    },
+    "学院_找关卡_第3关": {
+        "recognition": "OCR",
+        "expected": "03",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_关卡_第3关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "academy",
+            "level": 3
+        },
+        "enabled": true,
+        "next": [
+            "学院_快战_最大值",
+            "学院_快战_点击"
+        ]
+    },
+    "学院_找关卡_第4关": {
+        "recognition": "OCR",
+        "expected": "04",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_关卡_第4关": {
+        "action": "Custom",
+        "custom_action": "stage_enter_level",
+        "custom_action_param": {
+            "kind": "academy",
+            "level": 4
+        },
+        "enabled": true,
+        "next": [
+            "学院_快战_最大值",
+            "学院_快战_点击"
+        ]
+    },
+    "学院_找关卡_第5关": {
+        "recognition": "OCR",
+        "expected": "05",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_找关卡_第6关": {
+        "recognition": "OCR",
+        "expected": "06",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_找关卡_第7关": {
+        "recognition": "OCR",
+        "expected": "07",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_找关卡_第8关": {
+        "recognition": "OCR",
+        "expected": "08",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_找关卡_第9关": {
+        "recognition": "OCR",
+        "expected": "09",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "学院_找关卡_第10关": {
+        "recognition": "OCR",
+        "expected": "10",
+        "roi": [
+            660,
+            90,
+            560,
+            630
+        ],
+        "timeout": 3000,
+        "action": "DoNothing"
+    },
+    "悬赏_快战_点击": {
+        "recognition": "OCR",
+        "expected": "快速战斗",
+        "roi": [
+            745,
+            365,
+            400,
+            95
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "悬赏_快战_确认",
+            "悬赏_结算_检测",
+            "悬赏_面板关闭"
+        ]
+    },
+    "悬赏_快战_确认": {
+        "recognition": "OCR",
+        "expected": [
+            "是否使用",
+            "快速战斗"
+        ],
+        "roi": [
+            360,
+            280,
+            560,
+            130
+        ],
+        "action": "DoNothing",
+        "next": [
+            "悬赏_快战_点确认",
+            "悬赏_快战_点击"
+        ]
+    },
+    "悬赏_快战_点确认": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "roi": [
+            640,
+            455,
+            260,
+            100
+        ],
+        "action": "Click",
+        "post_delay": 3000,
+        "next": [
+            "悬赏_结算_检测",
+            "悬赏_快战_确认"
+        ]
+    },
+    "悬赏_面板关闭": {
+        "recognition": "OCR",
+        "expected": "任务信息",
+        "roi": [
+            560,
+            115,
+            240,
+            60
+        ],
+        "action": "DoNothing",
+        "next": [
+            "悬赏_面板关闭_点X",
+            "悬赏_链完成"
+        ]
+    },
+    "悬赏_面板关闭_点X": {
+        "recognition": "DirectHit",
+        "target": [
+            1083,
+            118,
+            40,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "悬赏_面板关闭",
+            "悬赏_链完成"
+        ]
+    },
+    "悬赏_链完成": {
+        "next": []
+    },
+    "学院_快战_点击": {
+        "recognition": "OCR",
+        "expected": "快速战斗",
+        "roi": [
+            745,
+            365,
+            400,
+            95
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "学院_快战_确认",
+            "学院_结算_检测",
+            "学院_面板关闭"
+        ]
+    },
+    "学院_快战_确认": {
+        "recognition": "OCR",
+        "expected": [
+            "是否使用",
+            "快速战斗"
+        ],
+        "roi": [
+            360,
+            280,
+            560,
+            130
+        ],
+        "action": "DoNothing",
+        "next": [
+            "学院_快战_点确认",
+            "学院_快战_点击"
+        ]
+    },
+    "学院_快战_点确认": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "roi": [
+            640,
+            455,
+            260,
+            100
+        ],
+        "action": "Click",
+        "post_delay": 3000,
+        "next": [
+            "学院_结算_检测",
+            "学院_快战_确认"
+        ]
+    },
+    "学院_面板关闭": {
+        "recognition": "OCR",
+        "expected": "任务信息",
+        "roi": [
+            560,
+            115,
+            240,
+            60
+        ],
+        "action": "DoNothing",
+        "next": [
+            "学院_面板关闭_点X",
+            "学院_链完成"
+        ]
+    },
+    "学院_面板关闭_点X": {
+        "recognition": "DirectHit",
+        "target": [
+            1083,
+            118,
+            40,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 1500,
+        "next": [
+            "学院_面板关闭",
+            "学院_链完成"
+        ]
+    },
+    "学院_链完成": {
+        "next": []
+    },
+    "悬赏_结算_检测": {
+        "recognition": "OCR",
+        "expected": "快速战斗完成",
+        "roi": [
+            500,
+            55,
+            400,
+            80
+        ],
+        "action": "DoNothing",
+        "next": [
+            "悬赏_结算_点确认",
+            "悬赏_面板关闭"
+        ]
+    },
+    "悬赏_结算_点确认": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "roi": [
+            470,
+            530,
+            340,
+            110
+        ],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "悬赏_面板关闭"
+        ]
+    },
+    "学院_结算_检测": {
+        "recognition": "OCR",
+        "expected": "快速战斗完成",
+        "roi": [
+            500,
+            55,
+            400,
+            80
+        ],
+        "action": "DoNothing",
+        "next": [
+            "学院_结算_点确认",
+            "学院_面板关闭"
+        ]
+    },
+    "学院_结算_点确认": {
+        "recognition": "OCR",
+        "expected": "确认",
+        "roi": [
+            470,
+            530,
+            340,
+            110
+        ],
+        "action": "Click",
+        "post_delay": 2000,
+        "next": [
+            "学院_面板关闭"
+        ]
+    },
+    "悬赏_总控": {
+        "action": "Custom",
+        "custom_action": "bounty_academy_clear",
+        "custom_action_param": {
+            "kind": "bounty",
+            "level_enabled": {
+                "1": false,
+                "2": false,
+                "3": false,
+                "4": false,
+                "5": false,
+                "6": false,
+                "7": false,
+                "8": false,
+                "9": false,
+                "10": false
+            }
+        },
+        "next": []
+    },
+    "学院_总控": {
+        "action": "Custom",
+        "custom_action": "bounty_academy_clear",
+        "custom_action_param": {
+            "kind": "academy",
+            "level_enabled": {
+                "1": false,
+                "2": false,
+                "3": false,
+                "4": false
+            }
+        },
+        "next": []
+    },
+    "通用_按返回": {
+        "recognition": "DirectHit",
+        "target": [
+            55,
+            37,
+            40,
+            40
+        ],
+        "action": "Click",
+        "post_delay": 2000
+    },
+    "通用_列表页判定": {
+        "recognition": "OCR",
+        "expected": "入场",
+        "roi": [
+            1000,
+            80,
+            280,
+            590
+        ],
+        "timeout": 15000,
+        "action": "DoNothing",
+        "next": []
+    },
+    "悬赏_快战_最大值": {
+        "recognition": "OCR",
+        "expected": "最大值",
+        "roi": [
+            1020,
+            265,
+            120,
+            65
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 500,
+        "next": [
+            "悬赏_快战_点击"
+        ]
+    },
+    "学院_快战_最大值": {
+        "recognition": "OCR",
+        "expected": "最大值",
+        "roi": [
+            1020,
+            265,
+            120,
+            65
+        ],
+        "enabled": false,
+        "action": "Click",
+        "post_delay": 500,
+        "next": [
+            "学院_快战_点击"
+        ]
+    }
+}
