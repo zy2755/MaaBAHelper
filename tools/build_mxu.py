@@ -28,7 +28,7 @@ SYNC_MAP = [
 
 IGNORE_DIRS = {"__pycache__"}          # 镜像时忽略（不复制、不删除）
 ZIP_EXCLUDE_DIRS = {"cache", "config", "debug", "__pycache__"}
-ZIP_EXCLUDE_SUFFIXES = {".pdb", ".log"}
+ZIP_EXCLUDE_SUFFIXES = {".pdb", ".log", ".bak", ".ico"}  # bak=旧 exe 备份, ico=图标源文件
 
 
 def iter_files(base: Path):
