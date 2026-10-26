@@ -9,8 +9,8 @@ env:
 
 on:
   push:
-    tags:
-      - "v*"
+    # 不由 tag 触发：Release 一律手动发布（gh release create）；
+    # 模板自带的 tag 自动发版因 GITHUB_TOKEN 无 Release 写权限会失败（红叉）
     branches:
       - "**"
     paths:
