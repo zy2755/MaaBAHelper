@@ -124,12 +124,18 @@ class MaaCore:
                 if not levels and not level_enabled:
                     levels = list(range(1, cfg["levels"] + 1))
 
-                # 回主界面保障
+                # 回主界面保障：先清弹窗队列（登录弹窗会盖屏）再判主界面
+                for _ in range(10):
+                    td = context.run_task("通用_弹窗返回键")
+                    if not (td and td.nodes and td.status and td.status.succeeded):
+                        break
                 for _ in range(6):
                     td = context.run_task("主界面_判定")
                     if td and td.nodes and td.status and td.status.succeeded:
                         break
                     context.run_task("通用_按返回")
+                # 主界面闲置息屏会让 UI 淡出，先点一下顶部空白唤醒
+                context.run_task("通用_唤醒屏幕")
 
                 # 进业务区的 next 链内已处理剧情警告弹窗和点入口，勿重复调用
                 context.run_task(f"{prefix}_进业务区")
@@ -517,8 +523,12 @@ class Handler(BaseHTTPRequestHandler):
                 self._json({"img": None})
 
     def do_POST(self):
-        length = int(self.headers.get("Content-Length", 0))
-        payload = json.loads(self.rfile.read(length) or b"{}")
+        try:
+            length = int(self.headers.get("Content-Length", 0))
+            payload = json.loads(self.rfile.read(length) or b"{}")
+        except (UnicodeDecodeError, json.JSONDecodeError, ValueError):
+            self._json({"ok": False, "error": "bad request body"}, 400)
+            return
         try:
             if self.path == "/api/connect":
                 msg = CORE.connect(payload.get("adb"))

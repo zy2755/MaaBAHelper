@@ -33,12 +33,18 @@ class ClearStages(CustomAction):
             levels = list(range(1, cfg["levels"] + 1))  # 无选项时默认全部（调试模式）
         print(f"[{kind}] 目标关卡: {levels}", flush=True)
 
-        # 回主界面保障：任务可能从任意页面启动
+        # 回主界面保障：任务可能从任意页面启动；先清弹窗队列再判主界面
+        for _ in range(10):
+            td = context.run_task("通用_弹窗返回键")
+            if not (td and td.nodes and td.status and td.status.succeeded):
+                break
         for _ in range(6):
             td = context.run_task("主界面_判定")
             if td and td.nodes and td.status and td.status.succeeded:
                 break
             context.run_task("通用_按返回")
+        # 主界面闲置息屏会让 UI 淡出，先点一下顶部空白唤醒
+        context.run_task("通用_唤醒屏幕")
 
         # 进业务区的 next 链内已处理剧情警告弹窗和点入口，勿重复调用（否则空烧 ~7s）
         context.run_task(f"{prefix}_进业务区")

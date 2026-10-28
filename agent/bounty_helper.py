@@ -33,12 +33,19 @@ class BountyAcademyClear(CustomAction):
             levels = list(range(1, cfg["levels"] + 1))  # 无任何选项时默认全部（调试模式）
         print(f"[{kind}] 目标关卡: {levels}", flush=True)
 
-        # 回主界面保障：任务可能从任意页面启动（上个任务结束的残留页面）
+        # 回主界面保障：任务可能从任意页面启动（上个任务结束的残留页面）。
+        # 先清弹窗队列（登录后 通知/沙勒新闻 等排队弹窗会盖屏且挡住后续识别）
+        for _ in range(10):
+            td = context.run_task("通用_弹窗返回键")
+            if not (td and td.nodes and td.status and td.status.succeeded):
+                break
         for _ in range(6):
             td = context.run_task("主界面_判定")
             if td and td.nodes and td.status and td.status.succeeded:
                 break
             context.run_task("通用_按返回")
+        # 主界面闲置息屏会让 UI 淡出，先点一下顶部空白唤醒，否则后续识别全落空
+        context.run_task("通用_唤醒屏幕")
 
         # 业务区入口：进业务区的 next 链内已处理剧情警告弹窗和点入口，勿重复调用
         # （重复调用会在模式页空烧剧情警告 2s + 点入口超时 5s，即"停 30 秒"的组成部分）
