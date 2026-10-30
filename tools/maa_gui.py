@@ -129,6 +129,9 @@ class MaaCore:
                     td = context.run_task("通用_弹窗返回键")
                     if not (td and td.nodes and td.status and td.status.succeeded):
                         break
+                # 登录态超时自恢复 + 蒙版兜底
+                context.run_task("通用_认证超时")
+                context.run_task("通用_蒙版弹窗")
                 for _ in range(6):
                     td = context.run_task("主界面_判定")
                     if td and td.nodes and td.status and td.status.succeeded:
