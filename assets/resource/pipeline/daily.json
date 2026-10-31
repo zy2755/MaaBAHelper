@@ -4,24 +4,7 @@
             "[JumpBack]通用_弹窗返回键",
             "[JumpBack]通用_认证超时",
             "通用_唤醒屏幕",
-            "[JumpBack]通用_确认",
-            "[JumpBack]通用_关闭",
-            "[JumpBack]通用_跳过动画",
-            "[JumpBack]通用_弹窗返回键",
-            "[JumpBack]通用_认证超时",
-            "邮件_领取",
-            "[JumpBack]通用_弹窗返回键",
-            "[JumpBack]通用_认证超时",
-            "主界面_进入咖啡厅",
-            "[JumpBack]通用_弹窗返回键",
-            "[JumpBack]通用_认证超时",
-            "主界面_进入商店",
-            "[JumpBack]通用_弹窗返回键",
-            "[JumpBack]通用_认证超时",
-            "日程_主流程",
-            "[JumpBack]通用_弹窗返回键",
-            "[JumpBack]通用_认证超时",
-            "业务区_进入"
+            "每日_段1"
         ]
     },
     "咖啡厅_主流程": {
@@ -615,5 +598,96 @@
             "邮件_跳过自选",
             "邮件_返回主界面"
         ]
+    },
+    "每日_段1": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "邮件_领取",
+            "每日_段2"
+        ]
+    },
+    "每日_段2": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "[JumpBack]通用_弹窗返回键",
+            "[JumpBack]通用_认证超时",
+            "每日_段3"
+        ]
+    },
+    "每日_段3": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "主界面_进入咖啡厅",
+            "每日_段4"
+        ]
+    },
+    "每日_段4": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "[JumpBack]通用_弹窗返回键",
+            "[JumpBack]通用_认证超时",
+            "每日_段5"
+        ]
+    },
+    "每日_段5": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "主界面_进入商店",
+            "每日_段6"
+        ]
+    },
+    "每日_段6": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "[JumpBack]通用_弹窗返回键",
+            "[JumpBack]通用_认证超时",
+            "每日_段7"
+        ]
+    },
+    "每日_段7": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "日程_主流程",
+            "每日_段8"
+        ]
+    },
+    "每日_段8": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "[JumpBack]通用_弹窗返回键",
+            "[JumpBack]通用_认证超时",
+            "每日_段9"
+        ]
+    },
+    "每日_段9": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": [
+            "业务区_进入",
+            "每日_完成"
+        ]
+    },
+    "每日_完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 200,
+        "next": []
     }
 }

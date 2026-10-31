@@ -147,6 +147,15 @@ cd MaaBAHelper && python tools/build_mxu.py [--zip]
 4. 未做的功能：总力战周常、活动关扫荡（interface 已有"活动扫荡"占位说明）
 5. 可选：切区动画 abort 重试优化；~~MXU 一键打包脚本~~ ✅ tools/build_mxu.py 已实现（同步+校验+--zip）
 
+### P0 收尾（2026-10-31 深夜）
+32. **maa-tools `duplicate-next` 规则**：同一任务的 next 列表重复引用同一节点即 error（exit 1，CI 挂因）。逐任务检查、跨任务引用不算、带 `[Anchor]` 前缀的引用不计。每日链"每阶段前复查弹窗"因此改成**分段调度**：每日_段1~段9 DirectHit 节点接力，复查节点分布到各段边界，每段列表内无重复。新增强化链时先跑 `npx @nekosu/maa-tools check` 看**真实退出码**。
+33. **校验命令别用管道 tail 吞退出码**：`npx ... check | tail -1` 永远返回 0，CI 上才炸（本地漏过一夜）。
+34. **MaaFW 的 MuMu IPC 截屏在游戏未加载完时会失败**（Failed to get cached image）——runner 的主界面验证改用 **adb exec-out 裸截屏** + tasker.post_recognition 吃外部图像。
+35. **`adb reboot` 会把 MuMu 变成关机**而不是重启；拉起用 `MuMu/nx_main/mumu-cli.exe control -v 0 launch`，重启后 adb 端口要等 ~1 分钟才注册。另注意 MuMu 重启后 adb serial 可能变（出现过实体手机 390c985c 抢注册），`adb devices` 先看清楚。
+36. **v3.0.2.78 渲染/输入不稳定持续**：黑帧频闪 + 输入冻结在游戏进程重启后仍会间歇复发（实测 6 帧采样仍有 2 黑帧）。 MuMu 升级是正解；自动化遇到黑帧（整屏 hash 稳定重复 + 黑像素 100%）时 force-stop 游戏重拉。
+37. **"无事可做"的链要给终结节点**：日程_主流程在券尽/入口不匹配时链会死并带崩整个任务（FAIL 语义）——已加 `每日_完成` DirectHit 终结节点收尾，全跳过时返回 OK。
+38. runner 已移到 `tools/run_daily_only.py` / `tools/run_full_flow.py`（debug/ 在 gitignore 里不进版本库）。
+
 ## 八点五、P0 改进落地与环境故障记录（2026-10-31 凌晨）
 
 ### P0 已实现（源自第九节 BAAH 方案）
