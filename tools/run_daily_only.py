@@ -41,14 +41,19 @@ def ensure_game_running(ctl, tasker):
     adb = r"D:/Program Files/Netease/MuMu/nx_main/adb.exe"
     addr = "127.0.0.1:16384"
     pkg = "com.RoamingStar.BlueArchive"
+    # v3.0.2.78 在 MuMu 上输入通道会在启动后 ~8-10 分钟冻结（坑 #40）：
+    # 每个任务前强制重启游戏进程，保证整个任务处于新鲜输入窗口内
     out = subprocess.run([adb, "-s", addr, "shell", "dumpsys", "window"],
                          capture_output=True, text=True, timeout=20).stdout
-    if pkg not in out:
-        print("[runner] 游戏未运行，拉起中...", flush=True)
-        subprocess.run([adb, "-s", addr, "shell", "monkey", "-p", pkg,
-                        "-c", "android.intent.category.LAUNCHER", "1"],
-                       capture_output=True, timeout=30)
-        time.sleep(30)
+    if pkg in out:
+        print("[runner] 重启游戏进程（规避输入冻结）...", flush=True)
+        subprocess.run([adb, "-s", addr, "shell", "am", "force-stop", pkg], timeout=20)
+        time.sleep(3)
+    print("[runner] 拉起游戏中...", flush=True)
+    subprocess.run([adb, "-s", addr, "shell", "monkey", "-p", pkg,
+                    "-c", "android.intent.category.LAUNCHER", "1"],
+                   capture_output=True, timeout=30)
+    time.sleep(30)
 
     @dataclasses.dataclass
     class _OCR:

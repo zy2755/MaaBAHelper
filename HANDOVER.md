@@ -152,7 +152,7 @@ cd MaaBAHelper && python tools/build_mxu.py [--zip]
 33. **校验命令别用管道 tail 吞退出码**：`npx ... check | tail -1` 永远返回 0，CI 上才炸（本地漏过一夜）。
 34. **MaaFW 的 MuMu IPC 截屏在游戏未加载完时会失败**（Failed to get cached image）——runner 的主界面验证改用 **adb exec-out 裸截屏** + tasker.post_recognition 吃外部图像。
 35. **`adb reboot` 会把 MuMu 变成关机**而不是重启；拉起用 `MuMu/nx_main/mumu-cli.exe control -v 0 launch`，重启后 adb 端口要等 ~1 分钟才注册。另注意 MuMu 重启后 adb serial 可能变（出现过实体手机 390c985c 抢注册），`adb devices` 先看清楚。
-36. **v3.0.2.78 渲染/输入不稳定持续**：黑帧频闪 + 输入冻结在游戏进程重启后仍会间歇复发（实测 6 帧采样仍有 2 黑帧）。 MuMu 升级是正解；自动化遇到黑帧（整屏 hash 稳定重复 + 黑像素 100%）时 force-stop 游戏重拉。
+36. **v3.0.2.78 渲染/输入不稳定持续且加重**：黑帧频闪 + 输入冻结在游戏重启后仍复发，且冻结窗口缩短（实测新进程 ~3 分钟内即冻，桌面触控正常可作隔离判据）。**已验证解法：MuMuManager setting -v 0 --key renderer_mode --value vk（切 Vulkan，仅实例关机时可改）——黑帧从 DX 模式的 2-13/20 降到 0/12**；输入冻结与渲染器无关，仍会复发，MuMu 升级（MuMuNxUpdater.exe）是唯一正解。自动化遇到黑帧（整屏 hash 稳定重复 + 黑像素 100%）时 force-stop 游戏重拉。
 37. **"无事可做"的链要给终结节点**：日程_主流程在券尽/入口不匹配时链会死并带崩整个任务（FAIL 语义）——已加 `每日_完成` DirectHit 终结节点收尾，全跳过时返回 OK。
 38. runner 已移到 `tools/run_daily_only.py` / `tools/run_full_flow.py`（debug/ 在 gitignore 里不进版本库）。
 
